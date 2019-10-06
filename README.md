@@ -2,7 +2,7 @@
 
 ![][license-url]
 
-Training my koa
+Training my koas
 
 ## Issue and Question
 

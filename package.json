@@ -1,0 +1,51 @@
+{
+  "name": "koa-playground",
+  "version": "1.0.0",
+  "description": "Koa Playground",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sunny-Kid/koa-playground"
+  },
+  "scripts": {
+    "prettier": "prettier-eslint --write \"src/**/*.{js,jsx,ts,tsx}\""
+  },
+  "keywords": [
+    "Koa"
+  ],
+  "author": "Hank Ren",
+  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-angular"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "yarn prettier",
+      "git add -A"
+    ]
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "koa": "^2.8.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-angular": "^8.2.0",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^3.0.8",
+    "prettier": "^1.18.2",
+    "prettier-eslint": "^9.0.0",
+    "prettier-eslint-cli": "^5.0.0"
+  }
+}

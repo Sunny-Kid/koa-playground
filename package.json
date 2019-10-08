@@ -7,6 +7,7 @@
     "url": "git+https://github.com/Sunny-Kid/koa-playground"
   },
   "scripts": {
+    "dev": "nodemon app.js",
     "prettier": "prettier-eslint --write \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "keywords": [
@@ -33,7 +34,11 @@
   },
   "dependencies": {
     "axios": "^0.19.0",
-    "koa": "^2.8.2"
+    "koa": "^2.8.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "lin-mizar": "^0.2.0-beta.2",
+    "require-directory": "^2.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
@@ -44,6 +49,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
     "husky": "^3.0.8",
+    "nodemon": "^1.19.3",
     "prettier": "^1.18.2",
     "prettier-eslint": "^9.0.0",
     "prettier-eslint-cli": "^5.0.0"

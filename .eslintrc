@@ -23,6 +23,7 @@
       {
         "code": 120
       }
-    ]
+    ],
+    "no-await-in-loop": "error"
   }
 }

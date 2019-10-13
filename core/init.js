@@ -5,6 +5,13 @@ class InitManager {
   static initCore(app) {
     InitManager.app = app;
     InitManager.initLoaderRouters();
+    InitManager.loadConfig();
+  }
+
+  static loadConfig(path = '') {
+    const configPath = path || `${process.cwd()}/config/config.js`;
+    const config = require(configPath);
+    global.config = config;
   }
 
   static initLoaderRouters() {

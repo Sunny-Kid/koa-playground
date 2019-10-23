@@ -2,7 +2,7 @@ const Router = require('koa-router');
 const router = new Router();
 const { PositiveIntegerValidator } = require('../../../validators/validator');
 
-const HttpException = require('../../../core/http-exception');
+const { HttpException } = require('../../../core/http-exception');
 
 router.get('/v1/classic/latest', (ctx, next) => {
   ctx.body = { key: 'classic' };

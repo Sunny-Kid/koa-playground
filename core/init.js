@@ -6,6 +6,7 @@ class InitManager {
     InitManager.app = app;
     InitManager.initLoaderRouters();
     InitManager.loadConfig();
+    InitManager.initExceptions();
   }
 
   static loadConfig(path = '') {
@@ -22,6 +23,11 @@ class InitManager {
         InitManager.app.use(obj.routes());
       }
     }
+  }
+
+  static initExceptions() {
+    const errors = require('./http-exception');
+    global.errs = errors;
   }
 }
 

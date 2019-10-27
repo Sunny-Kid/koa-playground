@@ -29,4 +29,4 @@ const sequelize = new Sequelize(dbName, user, password, {
  */
 sequelize.sync({ force: true });
 
-module.exports = { db: sequelize };
+module.exports = { sequelize };

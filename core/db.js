@@ -19,6 +19,13 @@ const sequelize = new Sequelize(dbName, user, password, {
      */
     paranoid: true,
     underscored: true,
+    scopes: {
+      bh: {
+        attributes: {
+          exclude: ['created_at', 'updated_at', 'deleted_at'],
+        },
+      },
+    },
   },
 });
 

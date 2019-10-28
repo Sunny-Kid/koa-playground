@@ -1,13 +1,20 @@
 const { LinValidator, Rule } = require('lin-mizar');
 const { User } = require('../models/user');
-const { LoginType } = require('../lib/enum');
+const { LoginType, ArtType } = require('../lib/enum');
 
-function checkType(val) {
-  if (!val.body.type) {
-    throw new Error('type是必须参数');
+class Checker {
+  constructor(type) {
+    this.enumType = type;
   }
-  if (!LoginType.isThisType(val.body.type)) {
-    throw new Error('type参数不合法');
+
+  check(val) {
+    const type = val.body.type || val.path.type;
+    if (!type) {
+      throw new Error('type是必须参数');
+    }
+    if (!this.enumType.isThisType(type)) {
+      throw new Error('type参数不合法');
+    }
   }
 }
 
@@ -23,7 +30,8 @@ class TokenValidator extends LinValidator {
     super();
     this.account = [new Rule('isLength', '不符合账号规则', { min: 4, max: 32 })];
     this.secret = [new Rule('isOptional'), new Rule('isLength', '至少6个字符', { min: 6, max: 128 })];
-    this.validateLoginType = checkType;
+    const checker = new Checker(LoginType);
+    this.validateLoginType = checker.check.bind(checker);
   }
 }
 
@@ -77,7 +85,8 @@ class NotEmptyValidator extends LinValidator {
 class LikeValidator extends PositiveIntegerValidator {
   constructor() {
     super();
-    this.validateType = checkType;
+    const checker = new Checker(ArtType);
+    this.validateType = checker.check.bind(checker);
   }
 }
 

@@ -1,7 +1,24 @@
 const { Op } = require('sequelize');
+const { flatten } = require('lodash');
 const { Movie, Sentence, Music } = require('./classic');
 
 class Art {
+  constructor(art_id, type) {
+    this.art_id = art_id;
+    this.type = type;
+  }
+
+  async getDetail(uid) {
+    const art = await Art.getData(this.art_id, this.type);
+    if (!art) {
+      throw new global.errs.NotFound();
+    }
+    // 不放在顶部是为了避免循环引用
+    const { Favor } = require('./favor');
+    const status = await Favor.isLike(this.art_id, this.type, uid);
+    return { art, like_status: status };
+  }
+
   static async getData(art_id, type, useScope) {
     const finder = {
       where: { id: art_id },
@@ -45,6 +62,7 @@ class Art {
         arts.push(await Art._getListByType(ids, parseInt(key, 10)));
       }
     }
+    return flatten(arts);
   }
 
   // 根据type获取list

@@ -26,6 +26,21 @@ router.get('/latest', new Auth(9).m, async (ctx, next) => {
 });
 
 /**
+ * @route   GET /:type/:id
+ * @desc    获取期刊详情
+ * @access  private
+ */
+router.get('/:type/:id', new Auth().m, async (ctx, next) => {
+  const v = await new LikeValidator().validate(ctx);
+  const id = v.get('path.id');
+  const type = parseInt(v.get('path.type'));
+  const artDetail = await new Art(id, type).getDetail(ctx.auth.uid);
+
+  artDetail.art.setDataValue('like_status', artDetail.like_status);
+  ctx.body = artDetail.art;
+});
+
+/**
  * @route GET /:type/:id/favor
  * @desc 获取期刊点赞信息
  * @access private
@@ -34,14 +49,11 @@ router.get('/:type/:id/favor', new Auth().m, async ctx => {
   const v = await new LikeValidator().validate(ctx);
   const id = v.get('path.id');
   const type = parseInt(v.get('path.type'), 10);
-  const art = await Art.getData(id, type, false);
-  if (!art) {
-    throw new global.errs.NotFound();
-  }
-  const status = await Favor.isLike(id, type, ctx.auth.uid);
+  const artDetail = await new Art(id, type).getDetail(ctx.auth.uid);
+
   ctx.body = {
-    fav_nums: art.fav_nums,
-    like_status: status,
+    fav_nums: artDetail.fav_nums,
+    like_status: artDetail.like_status,
   };
 });
 

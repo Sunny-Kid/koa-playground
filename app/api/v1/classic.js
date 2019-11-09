@@ -1,5 +1,5 @@
 const Router = require('koa-router');
-const { PositiveIntegerValidator, LikeValidator } = require('../../../validators/validator');
+const { LikeValidator } = require('../../../validators/validator');
 const { Flow } = require('../../models/flow');
 const { Art } = require('../../models/art');
 const { Favor } = require('../../models/favor');

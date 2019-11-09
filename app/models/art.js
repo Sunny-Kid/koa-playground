@@ -1,5 +1,6 @@
 const { Op } = require('sequelize');
 const { flatten } = require('lodash');
+const { ArtType } = require('../lib/enum');
 const { Movie, Sentence, Music } = require('./classic');
 
 class Art {
@@ -26,14 +27,23 @@ class Art {
     let art = null;
     const scope = useScope ? 'bh' : null;
     switch (type) {
-      case 100:
+      case ArtType.MOVIE:
         art = await Movie.scope(scope).findOne(finder);
         break;
-      case 200:
+      case ArtType.MUSIC:
         art = await Music.scope(scope).findOne(finder);
         break;
-      case 300:
+      case ArtType.SENTENCE:
         art = await Sentence.scope(scope).findOne(finder);
+        break;
+      case ArtType.BOOK:
+        const Book = require('./book');
+        art = await Book.scope(scope).findOne(finder);
+        if (!art) {
+          art = await Book.create({
+            id: art_id,
+          });
+        }
         break;
       default:
         break;

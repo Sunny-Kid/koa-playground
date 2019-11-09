@@ -1,4 +1,5 @@
-const Sequelize = require('Sequelize');
+const { Sequelize, Model } = require('Sequelize');
+const { unset, clone, isArray } = require('lodash');
 const { dbName, host, port, user, password } = require('../config/config').database;
 
 const sequelize = new Sequelize(dbName, user, password, {
@@ -35,5 +36,29 @@ const sequelize = new Sequelize(dbName, user, password, {
  * @see https://sequelize.org/master/manual/getting-started.html#synchronizing-the-model-with-the-database
  */
 sequelize.sync({ force: true });
+
+// 删除返回字段
+Model.prototype.toJSON = function() {
+  let data = clone(this.dataValues);
+  unset(data, 'created_at');
+  unset(data, 'updated_at');
+  unset(data, 'deleted_at');
+
+  for (let key in data) {
+    if (key === 'image') {
+      if (!data[key].startsWith('http')) {
+        data[key] = global.config.host + data[key];
+      }
+    }
+  }
+
+  // 自定义删除字段
+  if (isArray(this.exclude)) {
+    this.exclude.forEach(value => {
+      unset(data, value);
+    });
+  }
+  return data;
+};
 
 module.exports = { sequelize };
